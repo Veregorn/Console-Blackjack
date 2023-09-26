@@ -22,3 +22,32 @@
 #   https://games.washingtonpost.com/games/blackjack/
 #Then try out the completed Blackjack project here: 
 #   http://blackjack-final.appbrewery.repl.run
+
+# Import modules
+import os
+import random
+from art import logo
+
+# Clear console function (works on Windows and Linux)
+def clear_console():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+# Declare function to start the game
+def blackjack_game():
+
+    # Declare variables
+    cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+    round = 1
+
+    # Clear console and display logo
+    clear_console()
+    print(logo)
+
+# Display start question to user
+answer = ""
+while answer != "y" and answer != "n":
+    answer = input("Do you want to play a game of Blackjack? Type 'y' or 'n': ")
+
+# If user wants to play, start the game
+if answer == "y":
+    blackjack_game()
