@@ -32,6 +32,14 @@ from art import logo
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
 
+# Declare function to deal cards
+def deal_cards(number_of_cards, cards):
+    selected_cards = []
+    for i in range(number_of_cards):
+        selected_cards.append(random.choice(cards))
+    
+    return selected_cards
+
 # Declare function to start the game
 def blackjack_game():
 
