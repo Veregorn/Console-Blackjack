@@ -40,16 +40,63 @@ def deal_cards(number_of_cards, cards):
     
     return selected_cards
 
+# Compares scores and return true if computer's one is greater than user's one
+def computer_wins_or_draw(user_score,computer_score):
+    if computer_score >= user_score:
+        return True
+    
+    return False
+
+# Print final state of game
+def print_final_hands(player_hand,computer_hand,player_score,computer_score):
+    print(f"Your final hand: {player_hand}, final score: {player_score}")
+    print(f"Computer's final hand: {computer_hand}, final score: {computer_score}")
+
+# Declare a winner for the game
+def declare_winner(player_score,computer_score):
+    if (player_score > 21):
+        print("You went over. You lose 🙁")
+    elif (computer_score > 21):
+        print("Computer went over. You win 🙂")
+    elif (player_score > computer_score):
+        print("You win 🙂")
+    elif (player_score == computer_score):
+        print("Draw 🙃")
+    else:
+        print("You lose 🙁")
+
 # Declare function to start the game
 def blackjack_game():
 
     # Declare variables
     cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
-    round = 1
+    player_hand = deal_cards(2, cards)
+    computer_hand = deal_cards(2, cards)
+    player_score = sum(player_hand)
+    computer_score = sum(computer_hand)
+    wants_another_card = ""
 
     # Clear console and display logo
     clear_console()
     print(logo)
+
+    # Display player's hand and score
+    print(f"Your cards: {player_hand}, current score: {player_score}")
+
+    # Display computer's first card
+    print(f"Computer's first card: {computer_hand[0]}")
+
+    # Ask user if he/she wants another card
+    while wants_another_card != "y" and wants_another_card != "n":
+        wants_another_card = input("Type 'y' to get another card, type 'n' to pass: ")
+    
+    if wants_another_card == "n": # If user doesn't want more cards, is computer turn
+        
+        # Computer plays while its score is below user's one or its over 21
+        while not computer_wins_or_draw(player_score,computer_score) and (computer_score <= 21):
+            computer_hand = deal_cards(1,cards)
+
+        
 
 # Display start question to user
 answer = ""
