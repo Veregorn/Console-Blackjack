@@ -42,6 +42,8 @@ def deal_cards(number_of_cards, cards):
 
 # Compares scores and return true if computer's one is greater than user's one
 def computer_wins_or_draw(user_score,computer_score):
+    if user_score > 21:
+        return True
     if computer_score >= user_score:
         return True
     
@@ -74,29 +76,45 @@ def blackjack_game():
     computer_hand = deal_cards(2, cards)
     player_score = sum(player_hand)
     computer_score = sum(computer_hand)
-    wants_another_card = ""
+    wants_another_card = "y"
 
     # Clear console and display logo
     clear_console()
     print(logo)
 
-    # Display player's hand and score
-    print(f"Your cards: {player_hand}, current score: {player_score}")
+    # User game loop
+    while wants_another_card == "y":
+        # Display player's hand and score
+        print(f"Your cards: {player_hand}, current score: {player_score}")
 
-    # Display computer's first card
-    print(f"Computer's first card: {computer_hand[0]}")
+        # Display computer's first card
+        print(f"Computer's first card: {computer_hand[0]}")
 
-    # Ask user if he/she wants another card
-    while wants_another_card != "y" and wants_another_card != "n":
-        wants_another_card = input("Type 'y' to get another card, type 'n' to pass: ")
+        # Reset condition to enter the loop
+        wants_another_card = ""
+
+        # Ask user if he/she wants another card
+        while wants_another_card != "y" and wants_another_card != "n":
+            wants_another_card = input("Type 'y' to get another card, type 'n' to pass: ")
+
+        # If answer is "y", give another card to the user
+        if wants_another_card == "y":
+            player_hand += deal_cards(1,cards) # We join the two lists
+            player_score = sum(player_hand) # We need to refresh the score
+            # If player score is over 21, exit the loop
+            if player_score > 21:
+                break
     
-    if wants_another_card == "n": # If user doesn't want more cards, is computer turn
-        
-        # Computer plays while its score is below user's one or its over 21
-        while not computer_wins_or_draw(player_score,computer_score) and (computer_score <= 21):
-            computer_hand = deal_cards(1,cards)
+    # It's computer turn
+    # Computer plays while its score is below user's one or its over 21
+    while not computer_wins_or_draw(player_score,computer_score) and (computer_score <= 21):
+        computer_hand += deal_cards(1,cards) # We join the two lists
+        computer_score = sum(computer_hand) # We need to refresh the score
 
-        
+
+    # When user has played and computer too, it's time to print final hands and declare a winner
+    print_final_hands(player_hand, computer_hand, player_score, computer_score)
+    declare_winner(player_score, computer_score)
 
 # Display start question to user
 answer = ""
