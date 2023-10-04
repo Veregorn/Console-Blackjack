@@ -103,24 +103,40 @@ def blackjack_game():
             player_score = sum(player_hand) # We need to refresh the score
             # If player score is over 21, exit the loop
             if player_score > 21:
-                break
+                # If user has an Ace in their hand, convert it from 11 to 1
+                if 11 in player_hand:
+                    player_hand[player_hand.index(11)] = 1
+                    player_score = sum(player_hand) # We need to refresh the score
+                else:
+                    break # In other case, the game has finished for user, so exit the loop
     
     # It's computer turn
     # Computer plays while its score is below user's one or its over 21
-    while not computer_wins_or_draw(player_score,computer_score) and (computer_score <= 21):
+    while not computer_wins_or_draw(player_score,computer_score):
         computer_hand += deal_cards(1,cards) # We join the two lists
         computer_score = sum(computer_hand) # We need to refresh the score
+        # If computer score is over 21, exit the loop
+        if computer_score > 21:
+            # If computer has an Ace in their hand, convert it from 11 to 1
+            if 11 in computer_hand:
+                computer_hand[computer_hand.index(11)] = 1
+                computer_score = sum(computer_hand) # We need to refresh the score
+            else:
+                break # In other case, the game has finished for user, so exit the loop
 
 
     # When user has played and computer too, it's time to print final hands and declare a winner
     print_final_hands(player_hand, computer_hand, player_score, computer_score)
     declare_winner(player_score, computer_score)
 
-# Display start question to user
+# App's main loop
 answer = ""
-while answer != "y" and answer != "n":
-    answer = input("Do you want to play a game of Blackjack? Type 'y' or 'n': ")
 
-# If user wants to play, start the game
-if answer == "y":
-    blackjack_game()
+while not answer == "n":
+    while answer != "y" and answer != "n":
+        answer = input("Do you want to play a game of Blackjack? Type 'y' or 'n': ")
+
+    # If user wants to play, start the game
+    if answer == "y":
+        blackjack_game()
+        answer = ""
